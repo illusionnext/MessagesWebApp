@@ -1,4 +1,8 @@
-export default function Messages({ messages }) {
+export default function Messages({
+  messages,
+}: {
+  messages: { id: string; text: string }[];
+}) {
   return (
     <ul className="messages">
       {messages.map((message) => (
