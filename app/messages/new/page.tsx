@@ -2,13 +2,20 @@ import { redirect } from "next/navigation";
 
 import { addMessage } from "@/lib/messages";
 import { messageTypes } from "@/types/messages";
+import { revalidatePath, revalidateTag } from "next/cache";
 
 export default function NewMessagePage() {
   async function createMessage(formData: FormData) {
     "use server";
 
-    const message = formData.get("message");
-    addMessage(message);
+    const message = formData.get("message") as FormDataEntryValue | null;
+    if (message === null) {
+      throw new Error("Message is required");
+    }
+
+    // addMessage(message as messageTypes[]);
+    // revalidateTag("msg");
+    revalidatePath("/messages", "layout");
     redirect("/messages");
   }
 
